@@ -1,0 +1,15 @@
+HKCR
+{
+	NoRemove CLSID
+	{
+		ForceRemove {4E478BC3-F240-44BF-9A4B-E1CA33138AB0} = s 'SLGigEVisionCam class'
+		{
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			TypeLib = s '{07277cb7-d484-433a-a226-bc5cf676ff0a}'
+			Version = s '1.0'
+		}
+	}
+}

@@ -1,0 +1,15 @@
+HKCR
+{
+	NoRemove CLSID
+	{
+		ForceRemove {11c57dab-9a94-4dce-9ddf-507dd66b7ab4} = s 'SLGigEVisionMgr class'
+		{
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			TypeLib = s '{07277cb7-d484-433a-a226-bc5cf676ff0a}'
+			Version = s '1.0'
+		}
+	}
+}

@@ -1,0 +1,44 @@
+﻿  64 bit Processing .\SLGigEVision.idl
+  SLGigEVision.idl
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\um\oaidl.idl
+  oaidl.idl
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\um\objidl.idl
+  objidl.idl
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\um\unknwn.idl
+  unknwn.idl
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\shared\wtypes.idl
+  wtypes.idl
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\shared\wtypesbase.idl
+  wtypesbase.idl
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\shared\basetsd.h
+  basetsd.h
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\shared\guiddef.h
+  guiddef.h
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\um\ocidl.idl
+  ocidl.idl
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\um\oleidl.idl
+  oleidl.idl
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\um\servprov.idl
+  servprov.idl
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\um\urlmon.idl
+  urlmon.idl
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\um\msxml.idl
+  msxml.idl
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\um\oaidl.acf
+  oaidl.acf
+  64 bit Processing D:\Windows Kits\10\Include\10.0.19041.0\um\ocidl.acf
+  ocidl.acf
+  stdafx.cpp
+  dllmain.cpp
+  SLGigEVision.cpp
+  SLGigEVisionCam.cpp
+  Notice: Using GenICam with untested compiler, version 1929 detected!
+  Following versions were tested: 1400, 1500, 1600, 1700, 1800, 1900-1916.
+  SLGigEVisionMgr.cpp
+  Notice: Using GenICam with untested compiler, version 1929 detected!
+  Following versions were tested: 1400, 1500, 1600, 1700, 1800, 1900-1916.
+  Создание кода...
+  SLGigEVision_i.c
+  xdlldata.c
+     Создается библиотека D:\Repository\Gige\SLGigEVision\x64\Release\SLGigEVision.lib и объект D:\Repository\Gige\SLGigEVision\x64\Release\SLGigEVision.exp
+  SLGigEVision.vcxproj -> D:\Repository\Gige\SLGigEVision\x64\Release\SLGigEVision.dll

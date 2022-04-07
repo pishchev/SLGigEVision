@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.757
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLGigEVision", "SLGigEVision\SLGigEVision.vcxproj", "{9BE34AE2-AF97-465D-B00A-65CC4BC88896}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GigEVisionCommon", "GigEVisionCommon", "{C3F3D32D-81A8-4A8A-9A92-B74176447D47}"
+	ProjectSection(SolutionItems) = preProject
+		SLGigEVisionCommon\BayerConverter.hpp = SLGigEVisionCommon\BayerConverter.hpp
+		SLGigEVisionCommon\Buffer.hpp = SLGigEVisionCommon\Buffer.hpp
+		SLGigEVisionCommon\Camera.hpp = SLGigEVisionCommon\Camera.hpp
+		SLGigEVisionCommon\Configurator.hpp = SLGigEVisionCommon\Configurator.hpp
+		SLGigEVisionCommon\Device.hpp = SLGigEVisionCommon\Device.hpp
+		SLGigEVisionCommon\Fifo.hpp = SLGigEVisionCommon\Fifo.hpp
+		SLGigEVisionCommon\GenTL.h = SLGigEVisionCommon\GenTL.h
+		SLGigEVisionCommon\GigeManager.hpp = SLGigEVisionCommon\GigeManager.hpp
+		SLGigEVisionCommon\ImageAcquirer.hpp = SLGigEVisionCommon\ImageAcquirer.hpp
+		SLGigEVisionCommon\Interface.hpp = SLGigEVisionCommon\Interface.hpp
+		SLGigEVisionCommon\LibLoader.hpp = SLGigEVisionCommon\LibLoader.hpp
+		SLGigEVisionCommon\Logger.hpp = SLGigEVisionCommon\Logger.hpp
+		SLGigEVisionCommon\Port.hpp = SLGigEVisionCommon\Port.hpp
+		SLGigEVisionCommon\TransportLayer.hpp = SLGigEVisionCommon\TransportLayer.hpp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GenICamLib", "GenICamLib", "{17FEF4C7-E2FE-436B-A1BD-B77984E7616B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9BE34AE2-AF97-465D-B00A-65CC4BC88896}.Debug|x64.ActiveCfg = Debug|x64
+		{9BE34AE2-AF97-465D-B00A-65CC4BC88896}.Debug|x64.Build.0 = Debug|x64
+		{9BE34AE2-AF97-465D-B00A-65CC4BC88896}.Debug|x86.ActiveCfg = Debug|Win32
+		{9BE34AE2-AF97-465D-B00A-65CC4BC88896}.Debug|x86.Build.0 = Debug|Win32
+		{9BE34AE2-AF97-465D-B00A-65CC4BC88896}.Release|x64.ActiveCfg = Release|x64
+		{9BE34AE2-AF97-465D-B00A-65CC4BC88896}.Release|x64.Build.0 = Release|x64
+		{9BE34AE2-AF97-465D-B00A-65CC4BC88896}.Release|x86.ActiveCfg = Release|Win32
+		{9BE34AE2-AF97-465D-B00A-65CC4BC88896}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0EB89C03-16EE-4105-8AF0-519151B13F1C}
+	EndGlobalSection
+EndGlobal

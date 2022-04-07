@@ -1,0 +1,77 @@
+// SLGigEVision.idl : IDL source for SLGigEVision
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (SLGigEVision.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+typedef [v1_enum] enum eSLGEVImagePixelFormat {
+	eIP_RAW = 0,
+	eIP_RGB24_FAST,
+	eIP_RGB24_FINE,
+	eIP_UYVY_FAST,
+	eIP_UYVY_FINE
+} eSLGEVImagePixelFormat;
+
+[
+	object,
+	uuid(037fd175-0826-4a01-9b64-5b985c6bf5a3),
+	pointer_default(unique)
+]
+interface ISLGigEVisionCam : IUnknown
+{
+	HRESULT GetImageInfo([out] LONG* oWidth, [out] LONG* oHeight);
+	HRESULT Start();
+	HRESULT GetFifoInfo([out] LONG* oMinIndex, [out] LONG* oMaxIndex);
+	HRESULT GetImage([in] LONG iImageIndex, [in] eSLGEVImagePixelFormat iFormat, [out, size_is(iImageSize)] BYTE* oImage, [in] LONG iImageSize, [out] double* oImageTimeInSec);
+	HRESULT Stop();
+};
+[
+	object,
+	uuid(95C6C2C6-3C37-435D-B87B-20E6F7AF7264),
+	pointer_default(unique)
+]
+interface ISLGigEVisionCamInit : IUnknown
+{
+	HRESULT Init([in] BSTR iFile);
+};
+
+[
+	object,
+	uuid(18ABE099-E9B4-4E31-9B4D-A239EC511932),
+	pointer_default(unique)
+]
+interface ISLGigEVisionMgr : IUnknown
+{
+	HRESULT GetCamCount([out] LONG* oCamNumber);
+	HRESULT GetCamInfo([in] LONG iCamIndex, [out] LONG* oWidth, [out] LONG* oHeight, [out] double* oFPS, [out] BSTR* oName, [out] BSTR* oID);
+	HRESULT GetCamObject([in] LONG iCamIndex, [out] ISLGigEVisionCam* *oISLGigEVisionCam);
+};
+
+[
+	uuid(07277cb7-d484-433a-a226-bc5cf676ff0a),
+	version(1.0),
+]
+library SLGigEVisionLib
+{
+	importlib("stdole2.tlb");
+
+	[
+		uuid(11c57dab-9a94-4dce-9ddf-507dd66b7ab4)
+	]
+	coclass SLGigEVisionMgr
+	{
+		[default] interface ISLGigEVisionMgr;
+	};
+
+	[
+		uuid(4E478BC3-F240-44BF-9A4B-E1CA33138AB0)
+	]
+	coclass SLGigEVisionCam
+	{
+		[default] interface ISLGigEVisionCamInit;
+	};
+};
+
