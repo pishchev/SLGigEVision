@@ -61,9 +61,9 @@ void CGigePreviewDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_EDIT2, _configMessage);
-	DDX_Control(pDX, IDC_EDIT1, _configFile);
 	DDX_Control(pDX, IDC_BUTTON1, _configApply);
 	DDX_Control(pDX, IDOK, _exitButton);
+	DDX_Control(pDX, IDC_COMBO1, _configComboBox);
 }
 
 BEGIN_MESSAGE_MAP(CGigePreviewDlg, CDialogEx)
@@ -185,13 +185,26 @@ void CGigePreviewDlg::InitGigeDLL()
 void CGigePreviewDlg::InitDialogComponents()
 {
 	_configMessage.SetWindowTextW(_T("Config name:"));
-	_configFile.SetWindowTextW(_T("simDefault"));
+
+	WIN32_FIND_DATAW wfd;
+	HANDLE const hFind = FindFirstFileW(L"D:\\GigeVisionConfigurations\\*.gvc", &wfd);
+
+	LONG configsCount = 0;
+	if (INVALID_HANDLE_VALUE != hFind) {
+		do {
+			std::wstring wstrLib(&wfd.cFileName[0]);
+			std::string strLib(wstrLib.begin(), wstrLib.end()-4);
+			_configComboBox.AddString(LPCTSTR(CA2T(strLib.c_str())));
+		} while (NULL != FindNextFileW(hFind, &wfd));
+		_configComboBox.SetCurSel(0);
+		FindClose(hFind);
+	}
 }
 
 void CGigePreviewDlg::HideDialogComponents()
 {
 	_configMessage.ShowWindow(HIDE_WINDOW);
-	_configFile.ShowWindow(HIDE_WINDOW);
+	_configComboBox.ShowWindow(HIDE_WINDOW);
 	_configApply.ShowWindow(HIDE_WINDOW);
 	_exitButton.ShowWindow(SW_SHOW);
 }
@@ -205,7 +218,7 @@ std::string BSTRToString(const BSTR& iBSTR) {
 void CGigePreviewDlg::OnBnClickedApplyConfig()
 {
 	CString configName;
-	_configFile.GetWindowTextW(configName);
+	_configComboBox.GetLBText(_configComboBox.GetCurSel(), configName);
 
 	HideDialogComponents();
 

@@ -63,9 +63,9 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CEdit _configMessage;
-	CEdit _configFile;
 	CButton _configApply;
 	afx_msg void OnBnClickedApplyConfig();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	CButton _exitButton;
+	CComboBox _configComboBox;
 };

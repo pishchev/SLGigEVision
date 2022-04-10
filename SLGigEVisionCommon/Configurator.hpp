@@ -82,7 +82,7 @@ public:
   std::string _stream;
   std::string _name = "noName";
   double _fps = 100;
-  double _tickSec = 1e-6;
+  double _tickSec = 1;
 
   NodeParameters _parameters;
 };
