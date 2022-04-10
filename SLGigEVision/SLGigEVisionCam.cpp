@@ -46,11 +46,8 @@ STDMETHODIMP CSLGigEVisionCam::GetImage(LONG iImageIndex, eSLGEVImagePixelFormat
 	}
 
 	const auto res = _gigeManager.GetImage((size_t)iImageIndex, oImage) ? S_OK : S_FALSE;
-	if (res == S_OK) {
-		size_t tmp = 0;
-		_gigeManager.GetTimestamp((size_t)iImageIndex, tmp);
-		*oImageTimeInSec = (double)tmp / 100000.0;
-	}
+	if (res == S_OK)
+		_gigeManager.GetTimestamp((size_t)iImageIndex, *oImageTimeInSec);
 
 	return res;
 }

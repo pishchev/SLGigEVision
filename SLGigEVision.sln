@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.757
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLGigEVision", "SLGigEVision\SLGigEVision.vcxproj", "{9BE34AE2-AF97-465D-B00A-65CC4BC88896}"
 EndProject
@@ -25,6 +25,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GigEVisionCommon", "GigEVis
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GenICamLib", "GenICamLib", "{17FEF4C7-E2FE-436B-A1BD-B77984E7616B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientTest", "ClientTest\ClientTest.vcxproj", "{AEF1DD0E-2337-44D5-BF98-8E583EBC8B80}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GigeConfigurator", "GigeConfigurator\GigeConfigurator.vcxproj", "{020D36FC-5602-4EAB-B901-9A81F35AFDF2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GigePreview", "GigePreview\GigePreview.vcxproj", "{9E5032D7-8209-4A2A-BADE-C370E3F308C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +47,30 @@ Global
 		{9BE34AE2-AF97-465D-B00A-65CC4BC88896}.Release|x64.Build.0 = Release|x64
 		{9BE34AE2-AF97-465D-B00A-65CC4BC88896}.Release|x86.ActiveCfg = Release|Win32
 		{9BE34AE2-AF97-465D-B00A-65CC4BC88896}.Release|x86.Build.0 = Release|Win32
+		{AEF1DD0E-2337-44D5-BF98-8E583EBC8B80}.Debug|x64.ActiveCfg = Debug|x64
+		{AEF1DD0E-2337-44D5-BF98-8E583EBC8B80}.Debug|x64.Build.0 = Debug|x64
+		{AEF1DD0E-2337-44D5-BF98-8E583EBC8B80}.Debug|x86.ActiveCfg = Debug|Win32
+		{AEF1DD0E-2337-44D5-BF98-8E583EBC8B80}.Debug|x86.Build.0 = Debug|Win32
+		{AEF1DD0E-2337-44D5-BF98-8E583EBC8B80}.Release|x64.ActiveCfg = Release|x64
+		{AEF1DD0E-2337-44D5-BF98-8E583EBC8B80}.Release|x64.Build.0 = Release|x64
+		{AEF1DD0E-2337-44D5-BF98-8E583EBC8B80}.Release|x86.ActiveCfg = Release|Win32
+		{AEF1DD0E-2337-44D5-BF98-8E583EBC8B80}.Release|x86.Build.0 = Release|Win32
+		{020D36FC-5602-4EAB-B901-9A81F35AFDF2}.Debug|x64.ActiveCfg = Debug|x64
+		{020D36FC-5602-4EAB-B901-9A81F35AFDF2}.Debug|x64.Build.0 = Debug|x64
+		{020D36FC-5602-4EAB-B901-9A81F35AFDF2}.Debug|x86.ActiveCfg = Debug|Win32
+		{020D36FC-5602-4EAB-B901-9A81F35AFDF2}.Debug|x86.Build.0 = Debug|Win32
+		{020D36FC-5602-4EAB-B901-9A81F35AFDF2}.Release|x64.ActiveCfg = Release|x64
+		{020D36FC-5602-4EAB-B901-9A81F35AFDF2}.Release|x64.Build.0 = Release|x64
+		{020D36FC-5602-4EAB-B901-9A81F35AFDF2}.Release|x86.ActiveCfg = Release|Win32
+		{020D36FC-5602-4EAB-B901-9A81F35AFDF2}.Release|x86.Build.0 = Release|Win32
+		{9E5032D7-8209-4A2A-BADE-C370E3F308C0}.Debug|x64.ActiveCfg = Debug|x64
+		{9E5032D7-8209-4A2A-BADE-C370E3F308C0}.Debug|x64.Build.0 = Debug|x64
+		{9E5032D7-8209-4A2A-BADE-C370E3F308C0}.Debug|x86.ActiveCfg = Debug|Win32
+		{9E5032D7-8209-4A2A-BADE-C370E3F308C0}.Debug|x86.Build.0 = Debug|Win32
+		{9E5032D7-8209-4A2A-BADE-C370E3F308C0}.Release|x64.ActiveCfg = Release|x64
+		{9E5032D7-8209-4A2A-BADE-C370E3F308C0}.Release|x64.Build.0 = Release|x64
+		{9E5032D7-8209-4A2A-BADE-C370E3F308C0}.Release|x86.ActiveCfg = Release|Win32
+		{9E5032D7-8209-4A2A-BADE-C370E3F308C0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

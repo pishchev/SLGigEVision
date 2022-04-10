@@ -74,7 +74,10 @@ public:
 			if (param->second.type == "enum")
 				SetEnumStrNode(param->first, param->second.value);
 		}
+
+		_tickToSec = _config._tickSec;
 	}
+
 	void UseLib(std::string iCti)
 	{
 		_config._lib = iCti;
@@ -314,12 +317,17 @@ public:
 		_converter->Convert(oBuffer);
 		return true;
 	}
-	bool GetTimestamp(size_t iImageIndex, size_t& oTimestamp)
+	bool GetTimestamp(size_t iImageIndex, double& oTimestamp)
 	{
 		if (!_isReady)
 			return false;
 
-		return _fifoTimestamps->GetBuffer(iImageIndex, (unsigned char*)&oTimestamp);
+		size_t currentTimestamp = 0;
+		if (!_fifoTimestamps->GetBuffer(iImageIndex, (unsigned char*)&currentTimestamp))
+			return false;
+
+		oTimestamp = (double)(currentTimestamp - _firstTimestamp)*_tickToSec;
+		return true;
 	}
 	void GetBufferInfo(size_t& oMin, size_t& oMax)
 	{
@@ -374,8 +382,11 @@ private:
 				iManager.AddImageToBuffer(*imageBuffer.Convert<unsigned char*>());
 
 				const auto err = DSGetBufferInfo(iManager._stream, dataBufferPtr, GenTL::BUFFER_INFO_TIMESTAMP, &type, timestamp.Convert<void>(), timestamp.Size());
-				if (err == GenTL::GC_ERR_SUCCESS) 
+				if (err == GenTL::GC_ERR_SUCCESS) {
+					if (!iManager._isReady)
+						iManager._firstTimestamp = *timestamp.Convert<size_t>();
 					iManager.AddTimestampToBuffer(timestamp.Convert<unsigned char>());
+				}
 				else
 					iManager.AddTimestampToBuffer((unsigned char*)&noTimestamp);
 
@@ -415,6 +426,9 @@ private:
 
 	FIFO* _fifoImage;
 	FIFO* _fifoTimestamps;
+
+	size_t _firstTimestamp = 0;
+	double _tickToSec = 0;
 
 	GenTL::EVENT_HANDLE _event = nullptr;
 	GenTL::DS_HANDLE _stream = nullptr;

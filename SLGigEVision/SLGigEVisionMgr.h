@@ -44,6 +44,8 @@ public:
 	STDMETHOD(GetCamCount)(LONG* oCamNumber);
 	STDMETHOD(GetCamInfo)(LONG iCamIndex, LONG* oWidth, LONG* oHeight, double* oFPS, BSTR* oName, BSTR* oID);
 	STDMETHOD(GetCamObject)(LONG iCamIndex, ISLGigEVisionCam* *oISLGigEVisionCam);
+
+	std::string GetCamFile(LONG iCamIndex);
 };
 //
 OBJECT_ENTRY_AUTO(__uuidof(SLGigEVisionMgr), CSLGigEVisionMgr)
