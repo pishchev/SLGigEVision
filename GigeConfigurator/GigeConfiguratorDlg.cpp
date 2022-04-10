@@ -60,7 +60,6 @@ void CGigeConfiguratorDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, NO_START_CONFIG, _noStartConfigButton);
-	DDX_Control(pDX, EDIT_LIB_FILE, _libFile);
 	DDX_Control(pDX, APPLY_LIB_FILE_, _applyLib);
 	DDX_Control(pDX, INPUT_LIB_TEXT, _libMessage);
 	DDX_Control(pDX, IDC_COMBO1, _interfacesComboBox);
@@ -113,6 +112,7 @@ void CGigeConfiguratorDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT35, _outputFile);
 	DDX_Control(pDX, IDOK, _saveConfigButton);
 	DDX_Control(pDX, IDC_COMBO4, _editorComboBox);
+	DDX_Control(pDX, IDC_COMBO5, _libsComboBox);
 }
 
 BEGIN_MESSAGE_MAP(CGigeConfiguratorDlg, CDialogEx)
@@ -273,10 +273,23 @@ void CGigeConfiguratorDlg::InitConfigurator()
 	_configLayout.push_back(&_startConfigButton);
 	_configLayout.push_back(&_noStartConfigButton);
 
-	_libFile.SetWindowTextW(_T("TLSimu.cti"));
 	_libLayout.push_back(&_libMessage);
-	_libLayout.push_back(&_libFile);
+	_libLayout.push_back(&_libsComboBox);
 	_libLayout.push_back(&_applyLib);
+
+	WIN32_FIND_DATAW wfd;
+	HANDLE const hFind = FindFirstFileW(L"*.cti", &wfd);
+
+	LONG configsCount = 0;
+	if (INVALID_HANDLE_VALUE != hFind) {
+		do {
+			std::wstring wstrLib(&wfd.cFileName[0]);
+			std::string strLib(wstrLib.begin(), wstrLib.end());
+			_libsComboBox.AddString(Convert::StringToLPCTSTR(strLib));
+		} while (NULL != FindNextFileW(hFind, &wfd));
+		_libsComboBox.SetCurSel(0);
+		FindClose(hFind);
+	}
 
 	_interfaceLayout.push_back(&_interfacesComboBox);
 	_interfaceLayout.push_back(&_interfacesListMessage);
@@ -503,7 +516,7 @@ void CGigeConfiguratorDlg::OnTimer(UINT_PTR nIDEvent)
 void CGigeConfiguratorDlg::OnBnClickedLibFile()
 {
 	CString libFile;
-	_libFile.GetWindowTextW(libFile);
+	_libsComboBox.GetLBText(_libsComboBox.GetCurSel(), libFile);
 	_gigeManager.UseLib(Convert::CStringToString(libFile));
 
 	for (uint32_t i = 0; i < _gigeManager.GetIntefacesSize(); i++) 

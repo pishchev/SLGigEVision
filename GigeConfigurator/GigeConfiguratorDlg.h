@@ -98,7 +98,7 @@ public:
 	std::vector<CWnd*> _configLayout;
 
 	afx_msg void OnBnClickedLibFile();
-	CEdit _libFile;
+	CComboBox _libsComboBox;
 	CButton _applyLib;
 	CStatic _libMessage;
 	std::vector<CWnd*> _libLayout;
