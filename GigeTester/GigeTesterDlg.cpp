@@ -226,6 +226,7 @@ void CGigeTesterDlg::Test(ISLGigEVisionCam* iCam)
 	iCam->Stop();
 
 	double fps = double(curIndex) / double(secTest);
+	fps = int(100 * fps) / 100.0;
 	std::string strFps = std::to_string(fps);
 	_fpsEditor.SetWindowTextW(CA2T(strFps.c_str()));
 
