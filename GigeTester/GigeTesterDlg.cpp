@@ -217,7 +217,7 @@ void CGigeTesterDlg::Test(ISLGigEVisionCam* iCam)
 		if (iCam->GetImage((LONG)curIndex, eSLGEVImagePixelFormat::eIP_RAW, image, (LONG)payloadSize, &timestamp) == S_OK) {
 			char str[156];  sprintf_s(str, "Frame=%d [%d..%d]\n", curIndex, min, max); OutputDebugStringA(str);
 			curIndex++;
-		}
+		}else Sleep(2);
 
 		time = std::chrono::steady_clock::now();
 		diff = std::chrono::duration_cast<std::chrono::seconds>(time - start).count();
