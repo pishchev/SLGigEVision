@@ -108,7 +108,8 @@ enum eSLGEVImagePixelFormat
         eIP_RGB24_FAST	= ( eIP_RAW + 1 ) ,
         eIP_RGB24_FINE	= ( eIP_RGB24_FAST + 1 ) ,
         eIP_UYVY_FAST	= ( eIP_RGB24_FINE + 1 ) ,
-        eIP_UYVY_FINE	= ( eIP_UYVY_FAST + 1 ) 
+        eIP_UYVY_FINE	= ( eIP_UYVY_FAST + 1 ) ,
+        eIP_BGRA_FAST	= ( eIP_UYVY_FINE + 1 ) 
     } 	eSLGEVImagePixelFormat;
 
 

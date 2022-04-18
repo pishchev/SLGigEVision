@@ -54,8 +54,13 @@ public:
 		}
 	}
 
-	void UseConfigurator(std::string iConfigFile)
+	void UseConfigurator(std::string iConfigFile, LPCSTR iLibFolder)
 	{
+		// set current diractory to lib directory
+		char old[MAX_PATH];
+		GetCurrentDirectoryA(_countof(old), old);
+		SetCurrentDirectoryA(iLibFolder);
+
 		_config.ReadConfig(iConfigFile);
 		UseLib(_config._lib);
 		UseInterface(_config._interface);
@@ -77,6 +82,9 @@ public:
 		}
 
 		_tickToSec = _config._tickSec;
+
+		// restore current diractory
+		SetCurrentDirectoryA(old);
 	}
 
 	void UseLib(std::string iCti)
@@ -340,6 +348,7 @@ public:
 		if (_converter && iType == _converter->GetType())
 			return;
 
+
 		if (iType == ConverterType::Bayer_RGB24_Int)
 			_converter = Bayer_RGB24_InterpolatedPtr(new Bayer_RGB24_Interpolated);
 		else if (iType == ConverterType::Bayer_RGB24_NoInt)
@@ -348,6 +357,8 @@ public:
 			_converter = Bayer_UYVY_InterpolatedPtr(new Bayer_UYVY_Interpolated);
 		else if (iType == ConverterType::Bayer_UYVY_NoInt)
 			_converter = Bayer_UYVY_NoInterpolatedPtr(new Bayer_UYVY_NoInterpolated);
+		else if (iType == ConverterType::Bayer_BGRA_Fast)
+			_converter = Bayer_BGRA_NoInterpolatedPtr(new Bayer_BGRA_NoInterpolated);
 		else
 			_converter = RawPtr(new Raw);
 

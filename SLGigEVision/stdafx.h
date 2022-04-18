@@ -21,3 +21,5 @@
 #include <atlctl.h>
 
 using namespace ATL;
+
+extern char gBaseDir[MAX_PATH];

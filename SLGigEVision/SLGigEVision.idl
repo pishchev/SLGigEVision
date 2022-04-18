@@ -12,7 +12,8 @@ typedef [v1_enum] enum eSLGEVImagePixelFormat {
 	eIP_RGB24_FAST,
 	eIP_RGB24_FINE,
 	eIP_UYVY_FAST,
-	eIP_UYVY_FINE
+	eIP_UYVY_FINE,
+	eIP_BGRA_FAST
 } eSLGEVImagePixelFormat;
 
 [

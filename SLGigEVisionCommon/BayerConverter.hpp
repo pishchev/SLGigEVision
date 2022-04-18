@@ -8,6 +8,7 @@ class Bayer_RGB24_Interpolated;
 class Bayer_RGB24_NoInterpolated;
 class Bayer_UYVY_Interpolated;
 class Bayer_UYVY_NoInterpolated;
+class Bayer_BGRA_NoInterpolated;
 
 typedef std::shared_ptr<Converter> ConverterPtr;
 typedef std::shared_ptr<Raw> RawPtr;
@@ -15,6 +16,7 @@ typedef std::shared_ptr<Bayer_RGB24_Interpolated> Bayer_RGB24_InterpolatedPtr;
 typedef std::shared_ptr<Bayer_RGB24_NoInterpolated> Bayer_RGB24_NoInterpolatedPtr;
 typedef std::shared_ptr<Bayer_UYVY_Interpolated> Bayer_UYVY_InterpolatedPtr;
 typedef std::shared_ptr<Bayer_UYVY_NoInterpolated> Bayer_UYVY_NoInterpolatedPtr;
+typedef std::shared_ptr<Bayer_BGRA_NoInterpolated> Bayer_BGRA_NoInterpolatedPtr;
 
 enum class ConverterType {
   Raw,
@@ -22,6 +24,7 @@ enum class ConverterType {
   Bayer_RGB24_NoInt,
   Bayer_UYVY_Int,
   Bayer_UYVY_NoInt,
+  Bayer_BGRA_Fast
 };
 
 class Converter {
@@ -209,3 +212,79 @@ public:
     return ConverterType::Bayer_RGB24_NoInt;
   }
 };
+
+// BGRA
+class Bayer_BGRA_NoInterpolated : public Converter {
+public:
+	void Convert(unsigned char* oBuffer) override {
+		size_t oStride = _width * 4;
+		size_t iStride = _width;
+		unsigned char * oPtr0 = oBuffer;
+		unsigned char * oPtr1 = oBuffer + oStride;
+		unsigned char * iPtr0 = _buffer;
+		unsigned char * iPtr1 = _buffer + iStride;
+		for (size_t y = 0; y < _height; y += 2) {
+			for (size_t x = 0; x < _width; x += 2) {
+				// read RGB data
+				unsigned char nR = iPtr0[x * 2 + 0];
+				unsigned char nG0 = iPtr0[x * 2 + 1];
+				unsigned char nB = iPtr1[x * 2 + 0];
+				unsigned char nG1 = iPtr1[x * 2 + 1];
+				// write RGB data
+				oPtr0[x * 4 + 0] = nB;
+				oPtr0[x * 4 + 1] = nG0;
+				oPtr0[x * 4 + 2] = nR;
+				oPtr0[x * 4 + 3] = 255;
+				oPtr0[x * 4 + 4] = nB;
+				oPtr0[x * 4 + 5] = nG0;
+				oPtr0[x * 4 + 6] = nR;
+				oPtr0[x * 4 + 7] = 255;
+				oPtr1[x * 4 + 0] = nB;
+				oPtr1[x * 4 + 1] = nG1;
+				oPtr1[x * 4 + 2] = nR;
+				oPtr1[x * 4 + 3] = 255;
+				oPtr1[x * 4 + 4] = nB;
+				oPtr1[x * 4 + 5] = nG1;
+				oPtr1[x * 4 + 6] = nR;
+				oPtr1[x * 4 + 7] = 255;
+			}
+			oPtr0 += oStride * 2;
+			oPtr1 += oStride * 2;
+			iPtr0 += iStride * 2;
+			iPtr1 += iStride * 2;
+		}
+	}
+	ConverterType GetType() override {
+		return ConverterType::Bayer_BGRA_Fast;
+	}
+};
+
+// -------------- YUV <--> RGB ------------------- //
+// !!!!!!! 0..255 RGB <--> 16..240 YUV !!!!!!!
+inline BYTE ByteOf(int n) {
+	if (n < 0)  return BYTE(0);
+	else if (n > 255)  return BYTE(255);
+	else return BYTE(n);
+}
+//
+inline double Cy(double r, double g, double b) // Y
+{
+	return 16.0 + 0.257*r + 0.504*g + 0.098*b;
+}
+inline double Cb(double r, double g, double b) // U
+{
+	return 128.0 - 0.148*r - 0.291*g + 0.439*b;
+}
+inline double Cr(double r, double g, double b) // V
+{
+	return 128.0 + 0.439*r - 0.368*g - 0.071*b;
+}
+//
+inline void RGB2YUV(BYTE R, BYTE G, BYTE B, BYTE &Y, BYTE &U, BYTE &V)
+{
+	register double rf, gf, bf;
+	rf = double(R);  bf = double(B);  gf = double(G);
+	Y = ByteOf(int(Cy(rf, gf, bf) + 0.5));
+	U = ByteOf(int(Cb(rf, gf, bf) + 0.5));
+	V = ByteOf(int(Cr(rf, gf, bf) + 0.5));
+}

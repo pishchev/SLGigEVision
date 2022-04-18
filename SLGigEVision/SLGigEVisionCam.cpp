@@ -6,7 +6,7 @@ STDMETHODIMP CSLGigEVisionCam::Init(BSTR iFile)
 	char str[MAX_PATH * 2];
 	WideCharToMultiByte(CP_ACP, 0, iFile, -1, str, _countof(str), NULL, NULL);
 	std::string szFileName(str);
-	_gigeManager.UseConfigurator(szFileName);
+	_gigeManager.UseConfigurator(szFileName, gBaseDir);
 	return S_OK;
 }
 
@@ -42,6 +42,9 @@ STDMETHODIMP CSLGigEVisionCam::GetImage(LONG iImageIndex, eSLGEVImagePixelFormat
 		break;
 	case eSLGEVImagePixelFormat::eIP_UYVY_FINE:
 		_gigeManager.SetConverter(ConverterType::Bayer_UYVY_Int);
+		break;
+	case eSLGEVImagePixelFormat::eIP_BGRA_FAST:
+		_gigeManager.SetConverter(ConverterType::Bayer_BGRA_Fast);
 		break;
 	}
 
