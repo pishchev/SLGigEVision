@@ -26,6 +26,7 @@
 #include "GenTL.h"
 #include "GenICam.h"
 
+#define TRYGET(call) try { return call; } catch(GenICam_3_3::LogicalErrorException) { return false;}
 
 class GigeManager
 {
@@ -197,7 +198,7 @@ public:
 
 	bool GetCommandNode(std::string iNode, bool& oValue)
 	{
-		return _camera.GetCommandNode(iNode, oValue);
+		TRYGET(_camera.GetCommandNode(iNode, oValue));
 	}
 	bool ExecuteCommand(std::string iNode)
 	{
@@ -205,7 +206,7 @@ public:
 	}
 	bool GetIntNode(std::string iNode, int64_t& oValue)
 	{
-		return _camera.GetIntNode(iNode, oValue);
+		TRYGET(_camera.GetIntNode(iNode, oValue));
 	}
 	bool SetIntNode(std::string iNode, int64_t iValue)
 	{
@@ -214,7 +215,7 @@ public:
 	}
 	bool GetFloatNode(std::string iNode, double& oValue)
 	{
-		return _camera.GetFloatNode(iNode, oValue);
+		TRYGET(_camera.GetFloatNode(iNode, oValue));
 	}
 	bool SetFloatNode(std::string iNode, double iValue)
 	{
@@ -223,7 +224,7 @@ public:
 	}
 	bool GetBoolNode(std::string iNode, bool& oValue)
 	{
-		return _camera.GetBoolNode(iNode, oValue);
+		TRYGET(_camera.GetBoolNode(iNode, oValue));
 	}
 	bool SetBoolNode(std::string iNode, bool iValue)
 	{
@@ -232,11 +233,11 @@ public:
 	}
 	bool GetEnumStrNode(std::string iNode, std::string& oValue)
 	{
-		return _camera.GetEnumStrNode(iNode, oValue);
+		TRYGET(_camera.GetEnumStrNode(iNode, oValue));
 	}
 	bool GetEnumNodeName(std::string iNode, std::string& oValue)
 	{
-		return _camera.GetEnumNodeName(iNode, oValue);
+		TRYGET(_camera.GetEnumNodeName(iNode, oValue));
 	}
 	size_t GetEnumStrEntrySize(std::string iNode)
 	{
@@ -253,7 +254,7 @@ public:
 	}
 	bool GetStrNode(std::string iNode, std::string& oValue)
 	{
-		return _camera.GetStrNode(iNode, oValue);
+		TRYGET(_camera.GetStrNode(iNode, oValue));
 	}
 
 	void SaveConfig(std::string iFileName)
@@ -381,7 +382,9 @@ private:
 				elog(DSGetBufferInfo(iManager._stream, dataBufferPtr, GenTL::BUFFER_INFO_BASE, &type, imageBuffer.Convert<void>(), imageBuffer.Size()), "IMAGEBUFER");
 				iManager.AddImageToBuffer(*imageBuffer.Convert<unsigned char*>());
 
-				const auto err = DSGetBufferInfo(iManager._stream, dataBufferPtr, GenTL::BUFFER_INFO_TIMESTAMP, &type, timestamp.Convert<void>(), timestamp.Size());
+				auto err = DSGetBufferInfo(iManager._stream, dataBufferPtr, GenTL::BUFFER_INFO_TIMESTAMP, &type, timestamp.Convert<void>(), timestamp.Size());
+				if (err != GenTL::GC_ERR_SUCCESS)
+					err = DSGetBufferInfo(iManager._stream, dataBufferPtr, GenTL::BUFFER_INFO_TIMESTAMP_NS, &type, timestamp.Convert<void>(), timestamp.Size());
 				if (err == GenTL::GC_ERR_SUCCESS) {
 					if (!iManager._isReady)
 						iManager._firstTimestamp = *timestamp.Convert<size_t>();

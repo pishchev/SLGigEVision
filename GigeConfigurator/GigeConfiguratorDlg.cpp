@@ -384,7 +384,7 @@ void CGigeConfiguratorDlg::GetProperties()
 {
 	_properties.clear();
 
-	for (uint32_t i = 0; i < _gigeManager.GetNodesSize(); ++i)
+	for (uint32_t i = 0; i < _gigeManager.GetNodesSize() && i < 473; ++i)
 	{
 		Property prop;
 		prop._name = _gigeManager.GetNodeName(i);
@@ -394,7 +394,7 @@ void CGigeConfiguratorDlg::GetProperties()
 			{
 				prop._type = Property::Int;
 				int64_t intVal;
-				_gigeManager.GetIntNode(prop._name, intVal);
+				if (!_gigeManager.GetIntNode(prop._name, intVal)) continue;
 				prop._strValue = Convert::IntToString((int)intVal);
 				break;
 			}
@@ -402,7 +402,7 @@ void CGigeConfiguratorDlg::GetProperties()
 			{
 				prop._type = Property::Bool;
 				bool val;
-				_gigeManager.GetBoolNode(prop._name, val);
+				if (!_gigeManager.GetBoolNode(prop._name, val)) continue;
 				prop._strValue = val ? "1" : "0";
 				break;
 			}
@@ -410,7 +410,7 @@ void CGigeConfiguratorDlg::GetProperties()
 			{
 				prop._type = Property::Command;
 				bool val;
-				_gigeManager.GetCommandNode(prop._name, val);
+				if (!_gigeManager.GetCommandNode(prop._name, val)) continue;
 				prop._strValue = val ? "1" : "0";
 				break;
 			}
@@ -418,21 +418,21 @@ void CGigeConfiguratorDlg::GetProperties()
 			{
 				prop._type = Property::Float;
 				double val;
-				_gigeManager.GetFloatNode(prop._name, val);
+				if (!_gigeManager.GetFloatNode(prop._name, val)) continue;
 				prop._strValue = Convert::DoubleToString(val);
 				break;
 			}
 			case GigeManager::String:
 			{
 				prop._type = Property::Str;
-				_gigeManager.GetStrNode(prop._name, prop._strValue);
+				if (!_gigeManager.GetStrNode(prop._name, prop._strValue)) continue;
 				prop._canBeChanged = false;
 				break;
 			}
 			case GigeManager::Enumeration:
 			{
 				prop._type = Property::Enum;
-				_gigeManager.GetEnumStrNode(prop._name, prop._strValue);
+				if (!_gigeManager.GetEnumStrNode(prop._name, prop._strValue)) continue;
 				break;
 			}
 			default: 
