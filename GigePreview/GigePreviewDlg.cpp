@@ -264,7 +264,7 @@ void CGigePreviewDlg::ShowImage()
 	if (_curIndex < (size_t)_min + 2)
 		_curIndex = (size_t)_max;
 
-	if (_gige->GetImage((LONG)_curIndex, eSLGEVImagePixelFormat::eIP_RGB24_FINE, _image, (LONG)_payloadSize, &_timestamp) == S_OK) {
+	if (_gige->GetImage((LONG)_curIndex, eSLGEVImagePixelFormat::eIP_RGB24_FAST, _image, (LONG)_payloadSize, &_timestamp) == S_OK) {
 		char str[156];  sprintf_s(str, "Frame=%d [%d..%d]\n", _curIndex, _min, _max); OutputDebugStringA(str);
 		_curIndex++;
 		SetDIBitsToDevice(hdc, 0, 0, (DWORD)_width, (DWORD)_height, 0, 0, 0, (UINT)_height, _image, &bitmapInfo, DIB_RGB_COLORS);

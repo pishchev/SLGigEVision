@@ -34,17 +34,11 @@ STDMETHODIMP CSLGigEVisionCam::GetImage(LONG iImageIndex, eSLGEVImagePixelFormat
 	case eSLGEVImagePixelFormat::eIP_RGB24_FAST:
 		_gigeManager.SetConverter(ConverterType::Bayer_RGB24_NoInt);
 		break;
-	case eSLGEVImagePixelFormat::eIP_RGB24_FINE:
-		_gigeManager.SetConverter(ConverterType::Bayer_RGB24_Int);
-		break;
 	case eSLGEVImagePixelFormat::eIP_UYVY_FAST:
 		_gigeManager.SetConverter(ConverterType::Bayer_UYVY_NoInt);
 		break;
-	case eSLGEVImagePixelFormat::eIP_UYVY_FINE:
-		_gigeManager.SetConverter(ConverterType::Bayer_UYVY_Int);
-		break;
 	case eSLGEVImagePixelFormat::eIP_BGRA_FAST:
-		_gigeManager.SetConverter(ConverterType::Bayer_BGRA_Fast);
+		_gigeManager.SetConverter(ConverterType::Bayer_BGRA_NoInt);
 		break;
 	}
 
