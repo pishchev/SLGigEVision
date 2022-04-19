@@ -20,7 +20,7 @@ public:
 	~Buffer()
 	{
 		if (_buffer &&!_size)
-			delete _buffer;
+			delete[] _buffer;
 	}
 
 	void* operator*()

@@ -84,10 +84,10 @@ public:
     for (size_t y = 0; y < _height; y += 2) {
       for (size_t x = 0; x < _width; x += 2) {
 
-        unsigned char nR = iPtr0[x * 2 + 0];
-        unsigned char nG0 = iPtr0[x * 2 + 1];
-        unsigned char nB = iPtr1[x * 2 + 0];
-        unsigned char nG1 = iPtr1[x * 2 + 1];
+        unsigned char nR = iPtr0[x + 0];
+        unsigned char nG0 = iPtr0[x + 1];
+        unsigned char nB = iPtr1[x + 0];
+        unsigned char nG1 = iPtr1[x + 1];
         unsigned char u1, y1, v1, u2, y2, v2;
 
         RGB2YUV(nR, nG0, nB, y1, u1, v1);
@@ -125,10 +125,10 @@ public:
     for (size_t y = 0; y < _height; y += 2) {
       for (size_t x = 0; x < _width; x += 2) {
 
-        unsigned char nR = iPtr0[x * 2 + 0];
-        unsigned char nG0 = iPtr0[x * 2 + 1];
-        unsigned char nB = iPtr1[x * 2 + 0];
-        unsigned char nG1 = iPtr1[x * 2 + 1];
+        unsigned char nR = iPtr0[x + 0];
+        unsigned char nG0 = iPtr0[x + 1];
+        unsigned char nB = iPtr1[x + 0];
+        unsigned char nG1 = iPtr1[x + 1];
 
         int tmpX = x * 3;
         oPtr0[tmpX + 0] = nR;
@@ -167,10 +167,10 @@ public:
 		for (size_t y = 0; y < _height; y += 2) {
 			for (size_t x = 0; x < _width; x += 2) {
 				// read RGB data
-				unsigned char nR = iPtr0[x * 2 + 0];
-				unsigned char nG0 = iPtr0[x * 2 + 1];
-				unsigned char nB = iPtr1[x * 2 + 0];
-				unsigned char nG1 = iPtr1[x * 2 + 1];
+				unsigned char nR = iPtr0[x + 0];
+				unsigned char nG0 = iPtr0[x + 1];
+				unsigned char nB = iPtr1[x + 0];
+				unsigned char nG1 = iPtr1[x + 1];
 				// write RGB data
 				oPtr0[x * 4 + 0] = nB;
 				oPtr0[x * 4 + 1] = nG0;
