@@ -380,6 +380,7 @@ private:
 	}
 	static void AsyncCapture(GigeManager& iManager)
 	{
+		auto chrono = std::chrono::steady_clock::now();
 		::SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 		int type = GenTL::INFO_DATATYPE_STRING;
 		Buffer imageBuffer(64);
@@ -397,16 +398,18 @@ private:
 				elog(DSGetBufferInfo(iManager._stream, dataBufferPtr, GenTL::BUFFER_INFO_BASE, &type, imageBuffer.Convert<void>(), imageBuffer.Size()), "IMAGEBUFER");
 				iManager.AddImageToBuffer(*imageBuffer.Convert<unsigned char*>());
 
+				size_t ts;
 				auto err = DSGetBufferInfo(iManager._stream, dataBufferPtr, GenTL::BUFFER_INFO_TIMESTAMP, &type, timestamp.Convert<void>(), timestamp.Size());
 				if (err != GenTL::GC_ERR_SUCCESS)
 					err = DSGetBufferInfo(iManager._stream, dataBufferPtr, GenTL::BUFFER_INFO_TIMESTAMP_NS, &type, timestamp.Convert<void>(), timestamp.Size());
-				if (err == GenTL::GC_ERR_SUCCESS) {
-					if (!iManager._isReady)
-						iManager._firstTimestamp = *timestamp.Convert<size_t>();
-					iManager.AddTimestampToBuffer(timestamp.Convert<unsigned char>());
-				}
+				if (err == GenTL::GC_ERR_SUCCESS)
+					ts = *timestamp.Convert<size_t>();
 				else
-					iManager.AddTimestampToBuffer((unsigned char*)&noTimestamp);
+					ts = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - chrono).count();
+
+				if (!iManager._isReady)
+					iManager._firstTimestamp = ts;
+				iManager.AddTimestampToBuffer((unsigned char*)&ts);
 
 				elog(DSQueueBuffer(iManager._stream, dataBufferPtr), "DSQueueBuffer");
 
