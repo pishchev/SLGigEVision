@@ -31,6 +31,11 @@ public:
 		elog(DSStartAcquisition(hDS, GenTL::ACQ_START_FLAGS_DEFAULT, GENTL_INFINITE), "DSStartAcquisition");
 	}
 
+	void StopAcquisition(GenTL::DS_HANDLE hDS)
+	{
+		elog(DSStopAcquisition(hDS, GenTL::ACQ_STOP_FLAGS_DEFAULT), "DSStopAcquisition");
+	}
+
 	std::vector<GenTL::BUFFER_HANDLE> GetBuffers()
 	{
 		return _buffers;

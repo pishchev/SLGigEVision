@@ -15,6 +15,40 @@ std::string BSTRToString(const BSTR& iBSTR) {
   return std::string(str);
 }
 
+void Capture(ISLGigEVisionCam* camera, size_t payloadSize, unsigned char* image)
+{
+  size_t i = 0;
+  size_t min = 0;
+  size_t max = 0;
+  double timestamp = 0;
+  double lastTimestamp = 0;
+  auto chrono = std::chrono::steady_clock::now();
+
+  while (i < 100) {
+
+    camera->GetFifoInfo((LONG*)&min, (LONG*)&max);
+
+    if (i < min + 2) {
+      std::cout << "SLOW " << i << "->" << i + 2 << std::endl;
+      i = min + 2;
+    }
+
+    if (camera->GetImage((LONG)i, eSLGEVImagePixelFormat::eIP_RGB24_FAST, image, (LONG)payloadSize, &timestamp) == S_OK) {
+      const auto lastChrono = chrono;
+      chrono = std::chrono::steady_clock::now();
+      std::cout << "Image[" << i
+        << "] " << min << "-" << max
+        << "; Timestamp: " << timestamp
+        << "; DeltaTimestamp: " << timestamp - lastTimestamp
+        << "; DeltaChrono: " << std::chrono::duration_cast<std::chrono::microseconds>(chrono - lastChrono).count()
+        << std::endl;
+      i++;
+      lastTimestamp = timestamp;
+    }
+    else Sleep(1);
+  }
+}
+
 int main()
 {
   std::cout << "Start client" << std::endl;
@@ -59,41 +93,13 @@ int main()
   size_t payloadSize = width * height * 3;
 
   std::cout << "PayloadSize: " << payloadSize << "; Width: " << width << "; Height: " << height << std::endl;
-  camera->Start();
-
   unsigned char* image = new unsigned char[payloadSize];
 
-  size_t i = 0;
-  size_t min = 0;
-  size_t max = 0;
-  double timestamp = 0;
-  double lastTimestamp = 0;
-  auto chrono = std::chrono::steady_clock::now();
+  camera->Start();
+  Capture(camera, payloadSize, image);
+  camera->Stop();
+  camera->Start();
+  Capture(camera, payloadSize, image);
   
-  while (i < 200) {
-    
-    camera->GetFifoInfo((LONG*)&min, (LONG*)&max);
-
-    if (i < min + 2) {
-      std::cout << "SLOW " << i << "->" << i + 2 << std::endl;
-      i = min + 2;
-    }
-
-    if (camera->GetImage((LONG)i, eSLGEVImagePixelFormat::eIP_RGB24_FAST, image, (LONG)payloadSize, &timestamp) == S_OK) {
-      const auto lastChrono = chrono;
-      chrono = std::chrono::steady_clock::now();
-      std::cout << "Image[" << i
-        << "] " << min << "-" << max
-        << "; Timestamp: " << timestamp 
-        << "; DeltaTimestamp: " << timestamp - lastTimestamp
-        << "; DeltaChrono: " << std::chrono::duration_cast<std::chrono::microseconds>(chrono - lastChrono).count()
-        << std::endl;
-      i++;
-      lastTimestamp = timestamp;
-    }
-    else Sleep(1);
-  }
-  
-
   return 0;
 }

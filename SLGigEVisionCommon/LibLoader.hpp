@@ -48,9 +48,11 @@ static GenTL::PDSAllocAndAnnounceBuffer DSAllocAndAnnounceBuffer;
 static GenTL::PGCGetPortInfo GCGetPortInfo;
 
 static GenTL::PDSStartAcquisition DSStartAcquisition;
+static GenTL::PDSStopAcquisition DSStopAcquisition;
 static GenTL::PDSClose DSClose;
 
 static GenTL::PDSQueueBuffer DSQueueBuffer;
+static GenTL::PDSRevokeBuffer DSRevokeBuffer;
 
 
 
@@ -152,11 +154,17 @@ static void Init_Lib(std::string module_)
 	DSStartAcquisition = (GenTL::PDSStartAcquisition)GetProcAddress(gentl, "DSStartAcquisition");
 	assert(DSStartAcquisition != nullptr);
 
+	DSStopAcquisition = (GenTL::PDSStopAcquisition)GetProcAddress(gentl, "DSStopAcquisition");
+	assert(DSStopAcquisition != nullptr);
+
 	DSClose = (GenTL::PDSClose)GetProcAddress(gentl, "DSClose");
 	assert(DSClose != nullptr);
 
 	DSQueueBuffer = (GenTL::PDSQueueBuffer)GetProcAddress(gentl, "DSQueueBuffer");
 	assert(DSQueueBuffer != nullptr);
+
+	DSRevokeBuffer = (GenTL::PDSRevokeBuffer)GetProcAddress(gentl, "DSRevokeBuffer");
+	assert(DSRevokeBuffer != nullptr);
 
 	GCWritePort = (GenTL::PGCWritePort)GetProcAddress(gentl, "GCWritePort");
 	assert(GCWritePort != nullptr);

@@ -288,6 +288,9 @@ public:
 
 	void AcquirerPreparing()
 	{
+		if (_stopAcquire)
+			return;
+
 		GetIntNode("PayloadSize", _payloadSize);
 		GetIntNode("Height", _height);
 		GetIntNode("Width", _width);
@@ -297,19 +300,26 @@ public:
 
 		_fifoImage = new FIFO(_payloadSize, 50);
 		_fifoTimestamps = new FIFO(sizeof(uint64_t), 50);
+
 		_imageAcquirer.AnnounceBuffers(_stream, _payloadSize);
-		_imageAcquirer.StartAcquisition(_stream);
 		_buffers = _imageAcquirer.GetBuffers();
+
+		elog(GCRegisterEvent(_stream, GenTL::EVENT_NEW_BUFFER, &_event), "GCRegisterEvent");
 	}
 	void StartAcquisition()
 	{
+		_isReady = false;
+		_stopAcquire = false;
+		_fifoImage->Clear();
+		_fifoTimestamps->Clear();
+		_imageAcquirer.StartAcquisition(_stream);
 		_camera.StartAcquisition();
-		elog(GCRegisterEvent(_stream, GenTL::EVENT_NEW_BUFFER, &_event), "GCRegisterEvent");
 		AsyncAcquisition();
 	}
 	void StopAcquisition()
 	{
 		_stopAcquire = true;
+		_imageAcquirer.StopAcquisition(_stream);
 		_camera.StopAcquisition();
 	}
 
@@ -371,7 +381,6 @@ private:
 	static void AsyncCapture(GigeManager& iManager)
 	{
 		::SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
-		//::SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
 		int type = GenTL::INFO_DATATYPE_STRING;
 		Buffer imageBuffer(64);
 		Buffer timestamp(64);

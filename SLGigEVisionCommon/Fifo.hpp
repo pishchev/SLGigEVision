@@ -6,15 +6,19 @@ class FIFO
 public:
   FIFO(size_t iBufferSize, size_t iCount) : _bufferSize(iBufferSize), _count(iCount)
   {
-    _min = 0;
-    _max = 0;
-    _cur = 0;
     _fifo = new unsigned char[iBufferSize * iCount];
   }
 
   ~FIFO()
   {
     delete[] _fifo;
+  }
+
+  void Clear() 
+  {
+    _min = 0;
+    _max = 0;
+    _cur = 0;
   }
 
   void PushBack(unsigned char* iNewData)
